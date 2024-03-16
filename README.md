@@ -1,46 +1,45 @@
-# Getting Started with Create React App and Redux
+**Front-End Test: Login Interface Implementation Documentation**
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+**1. Introduction**
 
-## Available Scripts
+This documentation outlines the implementation details of the Qencode Login UI using React, as per the provided Figma design and Authentication API specification. The project has been developed using modern web technologies including React, Redux Toolkit, Tailwind CSS, Material-UI, and Axios. It follows the FSD architecture ,aims to deliver a responsive and user-friendly login interface.
 
-In the project directory, you can run:
+**2. Project Setup**
 
-### `npm start`
+To set up and run the project locally, follow these steps:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. Clone the repository from the provided Git URL.
+2. Navigate to the project directory in your terminal.
+3. Run `npm install` to install all the necessary dependencies.
+4. Start the development server by running `npm start`.
+5. Access the application in your web browser using the provided URL (usually `http://localhost:3000`).
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+**3. Components Structure**
 
-### `npm test`
+The project comprises several reusable React components corresponding to different pages as specified in the Figma design. These components include:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- `LoginPage`: Responsible for rendering the login form and handling user authentication.
+- `ForgotPasswordPage`: Renders the forgot password form and facilitates password recovery.
+- `ResetPasswordPage`: Displays the reset password form for users to reset their passwords.
 
-### `npm run build`
+**4. Design Implementation**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The design implementation closely follows the provided Figma design. Modern CSS techniques, including the use of Tailwind CSS utility classes, have been employed to achieve the desired layout. Attention has been paid to details such as font sizes, padding, and margins to match the design accurately. The components are responsive and adapt well to both mobile and desktop views.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+**5. Functional Implementation**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **React State and Props**: React's state and props have been effectively utilized to manage form data and validations across the components.
+- **Client-side Validation**: Input validations have been implemented for email and password fields. Email validation ensures the input follows a valid email format, while password validation enforces a minimum length of 8 characters.
+- **API Integration**: Axios has been used to integrate the forms with the provided API endpoints. The application handles different API response scenarios, such as successful login, login failure, password reset success, and password reset failure.
 
-### `npm run eject`
+**6. Error Handling**
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Error handling mechanisms have been implemented to inform users of any input mistakes or API request issues. Conditional rendering in React is used to display or hide error messages as needed, providing a seamless user experience.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+**7. State Management**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+The project utilizes Redux Toolkit for state management. Redux facilitates the centralized management of application state, ensuring data consistency and enabling efficient communication between components. Actions and reducers have been defined to manage user authentication and password reset processes.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+**8. Conclusion**
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+This documentation provides an overview of the implementation details of the Qencode Login UI using React. The project demonstrates proficiency in modern web development technologies and adherence to design specifications and best practices. Further enhancements and optimizations can be made based on specific project requirements and feedback.
