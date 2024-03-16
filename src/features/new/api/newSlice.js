@@ -1,25 +1,32 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
+import { setNewPassword } from '../../../entities/api/requests';
 
 const initialState = {
-  count: 0,
-}
+  data: null,
+  loading: false,
+  error: null,
+};
 
 const newSlice = createSlice({
   name: 'login',
   initialState,
-  reducers: {
-    increment(state) {
-      state.count += 1
-    },
-    decrement(state) {
-      state.count -= 1
-    },
-    incrementByAmount(state, action) {
-      state.count += action.payload
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(setNewPassword.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(setNewPassword.fulfilled, (state, action) => {
+        state.data = action.payload;
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(setNewPassword.rejected, (state) => {
+        state.error = true;
+        state.loading = false;
+      });
   },
-})
+});
 
-
-export const { increment, decrement, incrementByAmount } = newSlice.actions
-export default newSlice.reducer
+export default newSlice.reducer;

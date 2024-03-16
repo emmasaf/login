@@ -1,25 +1,33 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
+import { login } from '../../../entities/api/requests';
 
 const initialState = {
-  count: 0,
-}
+  user: null,
+  error: null,
+  loading: false,
+  token:''
+};
 
 const loginSlice = createSlice({
   name: 'login',
   initialState,
-  reducers: {
-    increment(state) {
-      state.count += 1
-    },
-    decrement(state) {
-      state.count -= 1
-    },
-    incrementByAmount(state, action) {
-      state.count += action.payload
-    },
-  },
-})
+  reducers: {},
+  extraReducers:(builder) => {
+    builder
+      .addCase(login.pending, (state) => {
+        state.loading = true;
+        state.error =null;
+      })
+      .addCase(login.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.loading = false;
+        state.error =null;
+      })
+      .addCase(login.rejected, (state) => {
+        state.error = true
+        state.loading = false;
+      });
+  }
+});
 
-
-export const { increment, decrement, incrementByAmount } = loginSlice.actions
-export default loginSlice.reducer
+export default loginSlice.reducer;

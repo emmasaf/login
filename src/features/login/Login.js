@@ -10,6 +10,8 @@ import Button from '../../widgets/Button'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { login } from '../../entities/api/requests'
 
 const validationSchema = yup.object().shape({
   email: yup.string().email('Invalid email').required('Email is required'),
@@ -18,10 +20,17 @@ const validationSchema = yup.object().shape({
 
 export default function LoginComponent() {
   const methods = useForm({ resolver: yupResolver(validationSchema) })
+  const {user,error,loading} = useSelector((state)=>state.login)
+  const dispatch = useDispatch()
 
   const onSubmit = data => {
-    console.log(data)
+    dispatch(login(data))
   }
+
+  console.log(user,'user');
+  console.log(error,'error');
+  console.log(loading,'loading');
+
   return (
     <div>
       <Title text="Log in to your account" />

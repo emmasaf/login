@@ -19,7 +19,7 @@ export default function Input({ name, type, label, ...rest }) {
   return (
     <div className="w-full mt-8">
       <TextField
-        id="outlined-basic"
+        id={"outlined-basic"+Math.random()}
         className="w-full "
         name={name}
         type={showPassword ? 'text' : type}
@@ -29,7 +29,6 @@ export default function Input({ name, type, label, ...rest }) {
         {...register(name)} 
         {...rest}
         InputProps={{
-          backgroundColor: 'transparent',
           endAdornment: type === 'password' && (
             <InputAdornment onClick={togglePasswordVisibility} position="end">
                 {showPassword ? <VisibilityOffIcon  style={{ backgroundColor: 'none' }} /> : <VisibilityIcon  style={{ backgroundColor: 'none' }}/>}
