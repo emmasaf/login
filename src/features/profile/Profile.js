@@ -1,17 +1,29 @@
 // src/components/Profile.js
-import React from 'react';
-import {useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { checkRefreshToken } from '../../entities/api/requests';
 
-const Profile = ({ loggedIn }) => {
+const ref_tok = localStorage.getItem('jwt_refresh_token');
+
+const Profile = ({}) => {
   const nav = useNavigate();
+  const { token } = useSelector((s) => s.login);
+  const dispatch = useDispatch();
 
   const handleClick = () => {
-    nav('/')
+    nav('/');
   };
+
+  useEffect(() => {
+    dispatch(checkRefreshToken({ refresh_token: ref_tok }));
+  }, [ref_tok]);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center">
-      <h1 className="text-4xl mb-8">{loggedIn ? 'Successfully logged in' : '404 - Not Found'}</h1>
+      <h1 className="text-4xl mb-8">
+        {token ? 'Successfully logged in' : '404 - Not Found'}
+      </h1>
       <button
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         onClick={handleClick}

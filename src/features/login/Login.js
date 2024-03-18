@@ -1,68 +1,76 @@
-import React, { useEffect } from 'react'
-import Title from '../../widgets/Title'
-import IconButton from '../../widgets/IconButton'
-import Google from '../../widgets/SVG/Google'
-import Git from '../../widgets/SVG/Git'
-import Divider from '../../widgets/Divider'
-import { FormProvider, useForm } from 'react-hook-form'
-import Input from '../../widgets/Input'
-import Button from '../../widgets/Button'
-import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { login } from '../../entities/api/requests'
-import { triggerNotification } from '../notifications/api/notificationSlice'
-import { GoogleLogin } from 'react-google-login'
+import React, { useEffect } from 'react';
+import Title from '../../widgets/Title';
+import IconButton from '../../widgets/IconButton';
+import Google from '../../widgets/SVG/Google';
+import Git from '../../widgets/SVG/Git';
+import Divider from '../../widgets/Divider';
+import { FormProvider, useForm } from 'react-hook-form';
+import Input from '../../widgets/Input';
+import Button from '../../widgets/Button';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { checkRefreshToken, login } from '../../entities/api/requests';
+import { triggerNotification } from '../notifications/api/notificationSlice';
+import { GoogleLogin } from 'react-google-login';
 
 const validationSchema = yup.object().shape({
   email: yup.string().email('Invalid email').required('Email is required'),
   password: yup.string().required('Password is required'),
-})
+});
 
 const clientId =
-  '704640950707-8o2387j5b73pi6au9a8q1pdpnvjp0ajm.apps.googleusercontent.com'
+  '704640950707-8o2387j5b73pi6au9a8q1pdpnvjp0ajm.apps.googleusercontent.com';
 
-const clientIdGit = 'af6895de3b570218d523'
+const clientIdGit = 'af6895de3b570218d523';
 
 export default function LoginComponent() {
-  const methods = useForm({ resolver: yupResolver(validationSchema) })
-  const { user, error, loading } = useSelector(state => state.login)
-  const dispatch = useDispatch()
-  const [searchParams] = useSearchParams()
-  // const nav = useNavigate()
+  const methods = useForm({ resolver: yupResolver(validationSchema) });
+  const { user, error, token } = useSelector((state) => state.login);
+  const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
 
-  const onSubmit = data => {
-    dispatch(login(data))
-  }
+  const nav = useNavigate();
 
-  const onGoogleSuccess = data => {
-    console.log('succes: ', data)
-  }
+  const onSubmit = (data) => {
+    dispatch(login(data)).then((action) => {
+      if (!action.payload.error) {
+       nav('/profile')
+      }
+    });
+  };
 
-  const onGoogleFailure = data => {
-    console.log('fail: ', data)
-  }
+  const onGoogleSuccess = (data) => {
+    console.log('succes: ', data);
+  };
 
-  const onGitSuccess = data => {
-    console.log('succes: ', data)
+  const onGoogleFailure = (data) => {
+    console.log('fail: ', data);
+  };
+
+  const onGitSuccess = (data) => {
+    console.log('succes: ', data);
     window.location.assign(
-      `https://github.com/login/oauth/authorize?client_id=${clientIdGit}`,
-    )
-  }
+      `https://github.com/login/oauth/authorize?client_id=${clientIdGit}`
+    );
+  };
 
   useEffect(() => {
-    const codeParams = searchParams.get('code')
-    console.log(codeParams)
-  }, [searchParams])
+    const codeParams = searchParams.get('code');
+    console.log(codeParams);
+  }, [searchParams]);
 
   useEffect(() => {
     if (error) {
       dispatch(
-        triggerNotification({ type: 'error', message: 'User is invalid' }),
-      )
+        triggerNotification({ type: 'error', message: 'User is invalid' })
+      );
     }
-  }, [error])
+  }, [error]);
+
+  console.log(token, 'token');
+  console.log(user,'user');
 
   return (
     <div>
@@ -74,7 +82,7 @@ export default function LoginComponent() {
           onSuccess={onGoogleSuccess}
           onFailure={onGoogleFailure}
           cookiePolicy={'single_host_origin'}
-          render={renderProps => (
+          render={(renderProps) => (
             <IconButton
               text="Google"
               icon={<Google />}
@@ -108,5 +116,5 @@ export default function LoginComponent() {
         </div>
       </div>
     </div>
-  )
+  );
 }
