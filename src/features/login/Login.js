@@ -9,7 +9,7 @@ import Input from '../../widgets/Input'
 import Button from '../../widgets/Button'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../../entities/api/requests'
 import { triggerNotification } from '../notifications/api/notificationSlice'
@@ -30,15 +30,10 @@ export default function LoginComponent() {
   const { user, error, loading } = useSelector(state => state.login)
   const dispatch = useDispatch()
   const [searchParams] = useSearchParams()
+  // const nav = useNavigate()
 
   const onSubmit = data => {
-    dispatch(login(data)).then(d => {
-      if (d?.error) {
-        dispatch(
-          triggerNotification({ type: 'error', message: d.error.message }),
-        )
-      }
-    })
+    dispatch(login(data))
   }
 
   const onGoogleSuccess = data => {
@@ -60,6 +55,12 @@ export default function LoginComponent() {
     const codeParams = searchParams.get('code')
     console.log(codeParams)
   }, [searchParams])
+
+  useEffect(() => {
+    if (error) {
+      dispatch(triggerNotification({ type: 'error', message: 'User is invalid' }))
+    }
+  }, [error])
 
   return (
     <div>

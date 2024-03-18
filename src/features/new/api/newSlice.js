@@ -8,7 +8,7 @@ const initialState = {
 };
 
 const newSlice = createSlice({
-  name: 'login',
+  name: 'new',
   initialState,
   reducers: {},
   extraReducers: (builder) => {

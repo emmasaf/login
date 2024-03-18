@@ -7,8 +7,8 @@ import notificationReducer from '../features/notifications/api/notificationSlice
 export const store = configureStore({
   reducer: {
     login: loginReducer,
-    reset: forgetReducer,
-    setNew: setNewReducer,
+    forget: forgetReducer,
+    new: setNewReducer,
     notification:notificationReducer
   },
 });

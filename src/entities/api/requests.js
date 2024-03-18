@@ -15,8 +15,7 @@ export const login = createAsyncThunk('login/login', async (data) => {
     const response = await api.post(loginURL,data);
     return response.data;
   } catch (error) {
-    throw Error('Failed to fetch user data');
-    return error
+    throw Error(error.message);
   }
 });
 
@@ -25,8 +24,7 @@ export const resetPassword = createAsyncThunk('reset/resetPassword', async (data
     const response = await api.post(passwordResetURL,data);
     return response.data;
   } catch (error) {
-    return error
-    throw Error('Failed to fetch user data');
+    throw Error(error.message);
   }
 });
 
@@ -35,8 +33,7 @@ export const setNewPassword = createAsyncThunk('setNew/setNewPassword', async (d
     const response = await api.post(passwordsetURL,data);
     return response.data;
   } catch (error) {
-    return error
-    throw Error('Failed to fetch user data');
+    throw Error(error.message);
   }
 });
 

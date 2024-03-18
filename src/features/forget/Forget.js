@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Title from '../../widgets/Title'
 import Divider from '../../widgets/Divider'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -7,6 +7,9 @@ import Button from '../../widgets/Button'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { triggerNotification } from '../notifications/api/notificationSlice'
+import { resetPassword } from '../../entities/api/requests'
 
 const validationSchema = yup.object().shape({
   email: yup.string().email('Invalid email').required('Email is required'),
@@ -14,10 +17,20 @@ const validationSchema = yup.object().shape({
 
 export default function ForgetComponent() {
   const methods = useForm({ resolver: yupResolver(validationSchema) })
-
+  const { data, error, loading } = useSelector(state => state.forget)
+  const dispatch = useDispatch()
   const onSubmit = data => {
-    console.log(data)
+    data.redirect_url = 'http://localhost:3000/new-password'
+    dispatch(resetPassword(data))
   }
+
+  useEffect(() => {
+    if (error) {
+      dispatch(
+        triggerNotification({ type: 'error', message: 'Email is invalid' }),
+      )
+    }
+  }, [error])
   return (
     <div>
       <Title text="Forgot Password?" />
