@@ -29,17 +29,15 @@ export default function LoginComponent() {
   const methods = useForm({ resolver: yupResolver(validationSchema) })
   const { user, error, loading } = useSelector(state => state.login)
   const dispatch = useDispatch()
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams] = useSearchParams()
 
   const onSubmit = data => {
-    dispatch(login(data)).then(() => {
-      dispatch(
-        triggerNotification({ type: 'success', message: 'User was loged in' }),
-      ).catch(() => {
+    dispatch(login(data)).then(d => {
+      if (d?.error) {
         dispatch(
-          triggerNotification({ type: 'error', message: 'User is invalid' }),
+          triggerNotification({ type: 'error', message: d.error.message }),
         )
-      })
+      }
     })
   }
 
@@ -61,7 +59,7 @@ export default function LoginComponent() {
   useEffect(() => {
     const codeParams = searchParams.get('code')
     console.log(codeParams)
-  }, [])
+  }, [searchParams])
 
   return (
     <div>
