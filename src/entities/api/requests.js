@@ -3,7 +3,7 @@ import { loginURL, passwordResetURL, passwordsetURL } from "./endpoints";
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: 'https://auth-qa.qencode.com/v1',
+  baseURL: 'https://auth-qa.qencode.com',
   headers: {
     'Content-Type': 'application/json',
   },
