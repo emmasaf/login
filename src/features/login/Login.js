@@ -58,14 +58,16 @@ export default function LoginComponent() {
 
   useEffect(() => {
     if (error) {
-      dispatch(triggerNotification({ type: 'error', message: 'User is invalid' }))
+      dispatch(
+        triggerNotification({ type: 'error', message: 'User is invalid' }),
+      )
     }
   }, [error])
 
   return (
     <div>
       <Title text="Log in to your account" />
-      <div className="flex gap-10">
+      <div className="flex justify-center gap-10 sm:gap-5">
         <GoogleLogin
           clientId={clientId}
           buttonText={'ssad'}
@@ -83,22 +85,27 @@ export default function LoginComponent() {
         <IconButton onClick={onGitSuccess} text="GitHub" icon={<Git />} />
       </div>
       <Divider />
-      <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(onSubmit)}>
-          <Input name="email" type="email" label="Email" />
-          <Input name="password" type="password" label="Password" />
+      <div className="w-full">
+        <FormProvider {...methods}>
+          <form
+            onSubmit={methods.handleSubmit(onSubmit)}
+            className="flex flex-col items-center justify-center"
+          >
+            <Input name="email" type="email" label="Email" />
+            <Input name="password" type="password" label="Password" />
 
-          <div className="w-full text-end pb-10 pt-1  text-[#316FEA]">
-            <Link to="/forget-password">Forgot your password?</Link>
-          </div>
-          <Button text="Log in to Qencode" />
-        </form>
-      </FormProvider>
-      <div className="text-center w-full my-3">
-        <span>Is your company new to Qencode? </span>
-        <Link className="text-[#316FEA]" to="/">
-          Sign up
-        </Link>
+            <div className="w-full text-right pb-10 pt-1 text-[#316FEA]">
+              <Link to="/forget-password">Forgot your password?</Link>
+            </div>
+            <Button text="Log in to Qencode" />
+          </form>
+        </FormProvider>
+        <div className="text-center w-full my-3">
+          <span>Is your company new to Qencode? </span>
+          <Link className="text-[#316FEA]" to="/">
+            Sign up
+          </Link>
+        </div>
       </div>
     </div>
   )

@@ -10,7 +10,6 @@ import * as yup from 'yup'
 const validationSchema = yup.object().shape({
   password: yup.string().required('Password is required'),
   passwordConfirm: yup.string().required('Password is required'),
-
 })
 
 export default function NewComponent() {
@@ -26,17 +25,22 @@ export default function NewComponent() {
       <div className="my-10" />
       <Divider />
       <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(onSubmit)}>
-          <div className='w-full -mb-7 text-start'><b>Password</b></div>
+        <form
+          className="flex flex-col items-center justify-center"
+          onSubmit={methods.handleSubmit(onSubmit)}
+        >
+          {' '}
+          <div className="w-full sm:ml-6 -mb-7 text-start">
+            <b>Password</b>
+          </div>
           <Input name="password" type="password" label="Password" />
           <div className="my-3" />
-
-          <div className='w-full -mb-7 text-start'><b>Confirm Password</b></div>
+          <div className="w-full sm:ml-6  -mb-7 text-start">
+            <b>Confirm Password</b>
+          </div>
           <Input name="password" type="password" label="Confirm Password" />
-
           <div className="my-7" />
           <Button text="Reset Password" />
-      
         </form>
       </FormProvider>
     </div>

@@ -37,21 +37,28 @@ export default function ForgetComponent() {
       <div className="w-[400px]"></div>
       <div className="my-10" />
       <Divider />
-      <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(onSubmit)}>
-          <Input name="email" type="email" label="Email" />
-          <div className="my-7" />
+      <div className="w-full">
+        <FormProvider {...methods}>
+          <form
+            className="flex flex-col items-center justify-center"
+            onSubmit={methods.handleSubmit(onSubmit)}
+          >
+            <Input name="email" type="email" label="Email" />
+            <div className="my-7" />
 
-          <Button text="Send" />
-          <div className="my-3" />
+            <div className='w-full sm:p-3'>
+              <Button text="Send" />
+              <div className="my-3" />
 
-          <Button
-            variant="out"
-            type="button"
-            text={<Link to="/">Cancel </Link>}
-          />
-        </form>
-      </FormProvider>
+              <Button
+                variant="out"
+                type="button"
+                text={<Link to="/">Cancel </Link>}
+              />
+            </div>
+          </form>
+        </FormProvider>
+      </div>
     </div>
   )
 }
