@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { checkRefreshToken } from '../../entities/api/requests'
+import { checkRefreshToken } from '../../shared/api/requests'
 
 const Profile = () => {
   const nav = useNavigate()

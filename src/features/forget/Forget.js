@@ -9,7 +9,7 @@ import * as yup from 'yup'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { triggerNotification } from '../notifications/api/notificationSlice'
-import { resetPassword } from '../../entities/api/requests'
+import { resetPassword } from '../../shared/api/requests'
 
 const validationSchema = yup.object().shape({
   email: yup.string().email('Invalid email').required('Email is required'),

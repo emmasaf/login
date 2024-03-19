@@ -6,7 +6,7 @@ import Button from '../../widgets/Button'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { useDispatch } from 'react-redux'
-import { setNewPassword } from '../../entities/api/requests'
+import { setNewPassword } from '../../shared/api/requests'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { triggerNotification } from '../notifications/api/notificationSlice'
 

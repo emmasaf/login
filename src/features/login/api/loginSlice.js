@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { checkRefreshToken, login } from '../../../entities/api/requests'
+import { checkRefreshToken, login } from '../../../shared/api/requests'
 
 const initialState = {
   user: null,

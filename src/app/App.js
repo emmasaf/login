@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import './styles/App.css'
-import routesArray from '../entities/routesArray'
+import routesArray from '../shared/routesArray'
 import { Route, Routes } from 'react-router-dom'
 import Logo from '../widgets/SVG/Logo'
 import { useSelector } from 'react-redux'
