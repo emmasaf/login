@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { setNewPassword } from '../../../entities/api/requests';
+import { setNewPassword } from '../../../shared/api/requests';
 
 const initialState = {
   data: null,

@@ -21,7 +21,16 @@ export default function ForgetComponent() {
   const dispatch = useDispatch()
   const onSubmit = data => {
     data.redirect_url = 'http://localhost:3000/new-password'
-    dispatch(resetPassword(data))
+
+    dispatch(resetPassword(data)).then(({payload})=>{
+      console.log(payload,'payload');
+      if(payload?.error === 0){
+        dispatch(
+          triggerNotification({ type: 'success', message: 'Check your email' }),
+        )
+      }
+      methods.reset({email:''})
+    })
   }
 
   useEffect(() => {

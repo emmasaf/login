@@ -1,11 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { checkRefreshToken, login } from '../../../shared/api/requests'
+import { checkAccessToken, login } from '../../../shared/api/requests'
 
 const initialState = {
   user: null,
   error: null,
   loading: false,
-  token: '',
 }
 
 const loginSlice = createSlice({
@@ -28,11 +27,11 @@ const loginSlice = createSlice({
         state.user = null
         state.loading = false
       })
-      .addCase(checkRefreshToken.rejected, (state, action) => {
-        state.token = action.payload
+      .addCase(checkAccessToken.rejected, (state, action) => {
+        state.error = true
       })
-      .addCase(checkRefreshToken.fulfilled, (state, action) => {
-        state.token = action.payload
+      .addCase(checkAccessToken.fulfilled, (state, action) => {
+        state.error = false
       })
   },
 })

@@ -9,9 +9,12 @@ import Input from '../../widgets/Input'
 import Button from '../../widgets/Button'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { login } from '../../shared/api/requests'
+import {
+  checkAccessToken,
+  login,
+} from '../../shared/api/requests'
 import { triggerNotification } from '../notifications/api/notificationSlice'
 import { GoogleLogin } from 'react-google-login'
 import { gapi } from 'gapi-script'
@@ -28,40 +31,48 @@ const clientIdGit = '38ee962a418e355c9f74'
 
 export default function LoginComponent() {
   const methods = useForm({ resolver: yupResolver(validationSchema) })
-  const { error } = useSelector(state => state.login)
+  const { error,user } = useSelector(state => state.login)
   const dispatch = useDispatch()
   const [searchParams] = useSearchParams()
-
-  const nav = useNavigate()
 
   const onSubmit = data => {
     dispatch(login(data)).then(action => {
       if (action?.payload?.error === 0) {
         localStorage.setItem('jwt_access_token', action.payload.access_token)
         localStorage.setItem('jwt_refresh_token', action.payload.refresh_token)
-        nav('/profile')
+        dispatch(
+          checkAccessToken({
+            access_id: localStorage.getItem('jwt_access_token'),
+          }),
+        )
+
+        dispatch(
+          triggerNotification({
+            type: 'success',
+            message: 'user is logged in',
+          }),
+        )
+      methods.reset()
+
       }
     })
   }
 
   const onGoogleSuccess = data => {
-    localStorage.setItem('access_id', data.tokenId)
-    console.log('succes: ', data)
-
     let accessToken = gapi.auth.getToken().access_token
-    console.log(accessToken,'**accessToken');
 
+    dispatch(
+      checkAccessToken({
+        access_id: accessToken,
+      }),
+    )
   }
 
-
-
   const onGoogleFailure = data => {
-    console.log('fail: ', data)
     dispatch(triggerNotification({ type: 'error', message: data.error }))
   }
 
   const onGitSuccess = data => {
-    console.log('succes: ', data)
     window.location.assign(
       `https://github.com/login/oauth/authorize?client_id=${clientIdGit}`,
     )
@@ -69,16 +80,23 @@ export default function LoginComponent() {
 
   useEffect(() => {
     const codeParams = searchParams.get('code')
-    console.log(codeParams,'codeParams git')
-  }, [searchParams])
+    if (codeParams) {
+      dispatch(
+        checkAccessToken({
+          access_id: codeParams,
+        }),
+      )
+    }
+  }, [searchParams,dispatch])
+
 
   useEffect(() => {
-    if (error) {
+    if (error && !user) {
       dispatch(
         triggerNotification({ type: 'error', message: 'User is invalid' }),
       )
-    }
-  }, [error, dispatch])
+    } 
+  }, [error, dispatch,user])
 
   return (
     <div>

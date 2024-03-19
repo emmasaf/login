@@ -27,7 +27,6 @@ export default function NewComponent() {
     data.token = token
     data.secret = secret
 
-    console.log(data)
     dispatch(setNewPassword(data)).then(({payload})=>{
       if (!payload.error) {
         dispatch(
@@ -51,7 +50,6 @@ export default function NewComponent() {
           className="flex flex-col items-center justify-center"
           onSubmit={methods.handleSubmit(onSubmit)}
         >
-          {' '}
           <div className="w-full sm:ml-6 -mb-7 text-start">
             <b>Password</b>
           </div>

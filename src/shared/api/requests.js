@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { loginURL, passwordResetURL, passwordsetURL, refreshTokenURL } from "./endpoints";
+import { accessTokenURL, loginURL, passwordResetURL, passwordsetURL, refreshTokenURL } from "./endpoints";
 import axios from "axios";
 
 const api = axios.create({
@@ -27,6 +27,17 @@ export const checkRefreshToken = createAsyncThunk('login/checkRefreshToken', asy
     throw Error(error.message);
   }
 });
+
+export const checkAccessToken = createAsyncThunk('login/checkAccessToken', async (data) => {
+  try {
+    const response = await api.post(accessTokenURL,data);
+    return response.data;
+  } catch (error) {
+    throw Error(error.message);
+  }
+});
+
+
 
 export const resetPassword = createAsyncThunk('forget/resetPassword', async (data) => {
   try {
