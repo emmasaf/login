@@ -17,7 +17,7 @@ const validationSchema = yup.object().shape({
 
 export default function ForgetComponent() {
   const methods = useForm({ resolver: yupResolver(validationSchema) })
-  const { data, error, loading } = useSelector(state => state.forget)
+  const {  error } = useSelector(state => state.forget)
   const dispatch = useDispatch()
   const onSubmit = data => {
     data.redirect_url = 'http://localhost:3000/new-password'
@@ -30,7 +30,7 @@ export default function ForgetComponent() {
         triggerNotification({ type: 'error', message: 'Email is invalid' }),
       )
     }
-  }, [error])
+  }, [error,dispatch])
   return (
     <div>
       <Title text="Forgot Password?" />

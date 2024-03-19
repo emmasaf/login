@@ -1,23 +1,21 @@
 // src/components/Profile.js
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { checkRefreshToken } from '../../entities/api/requests';
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { checkRefreshToken } from '../../entities/api/requests'
 
-const ref_tok = localStorage.getItem('jwt_refresh_token');
-
-const Profile = ({}) => {
-  const nav = useNavigate();
-  const { token } = useSelector((s) => s.login);
-  const dispatch = useDispatch();
+const Profile = () => {
+  const nav = useNavigate()
+  const { token } = useSelector(s => s.login)
+  const dispatch = useDispatch()
 
   const handleClick = () => {
-    nav('/');
-  };
+    nav('/')
+  }
 
   useEffect(() => {
-    dispatch(checkRefreshToken({ refresh_token: ref_tok }));
-  }, [ref_tok]);
+    dispatch(checkRefreshToken({ refresh_token: localStorage.getItem('jwt_refresh_token') }))
+  }, [dispatch])
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center">
@@ -31,7 +29,7 @@ const Profile = ({}) => {
         Go to Home
       </button>
     </div>
-  );
-};
+  )
+}
 
-export default Profile;
+export default Profile

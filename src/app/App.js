@@ -8,8 +8,7 @@ import Notification from '../features/notifications/Notifications'
 import { gapi } from 'gapi-script'
 
 const clientId =
-  '704640950707-8o2387j5b73pi6au9a8q1pdpnvjp0ajm.apps.googleusercontent.com'
-const clientSecret = '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'
+  '920853738337-c4ont5cuif052e4ml3mabdi4nv80o0ed.apps.googleusercontent.com'
 
 function App() {
   const { message, type } = useSelector(s => s.notification)

@@ -1,35 +1,51 @@
-import React from 'react';
-import Title from '../../widgets/Title';
-import Divider from '../../widgets/Divider';
-import { FormProvider, useForm } from 'react-hook-form';
-import Input from '../../widgets/Input';
-import Button from '../../widgets/Button';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import { useDispatch } from 'react-redux';
-import { setNewPassword } from '../../entities/api/requests';
+import React from 'react'
+import Title from '../../widgets/Title'
+import { FormProvider, useForm } from 'react-hook-form'
+import Input from '../../widgets/Input'
+import Button from '../../widgets/Button'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+import { useDispatch } from 'react-redux'
+import { setNewPassword } from '../../entities/api/requests'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { triggerNotification } from '../notifications/api/notificationSlice'
 
 const validationSchema = yup.object().shape({
   password: yup.string().required('Password is required'),
   password_confirm: yup.string().required('Password is required'),
-});
+})
 
 export default function NewComponent() {
-  const methods = useForm({ resolver: yupResolver(validationSchema) });
-  const dispatch = useDispatch();
+  const methods = useForm({ resolver: yupResolver(validationSchema) })
+  const dispatch = useDispatch()
+  const [searchParams] = useSearchParams()
+  const token = searchParams.get('token') || null
+  const secret = searchParams.get('secret') || null
+  const nav = useNavigate()
 
-  const onSubmit = (data) => {
-    data.token = localStorage.getItem('jwt_access_token');
-    data.secret = 'string';
-    console.log(data);
-    dispatch(setNewPassword(data));
-  };
+  const onSubmit = data => {
+    data.token = token
+    data.secret = secret
+
+    console.log(data)
+    dispatch(setNewPassword(data)).then(({payload})=>{
+      if (!payload.error) {
+        dispatch(
+          triggerNotification({ type: 'success', message: 'Password is changed' })
+        );
+        nav('/')
+       }else{
+        dispatch(
+          triggerNotification({ type: 'error', message: 'Secret key or token is wrong' })
+        );
+       }
+    })
+  }
+
   return (
     <div>
       <Title text="Create new Password?" />
-      <div className="w-[400px]"></div>
       <div className="my-10" />
-      <Divider />
       <FormProvider {...methods}>
         <form
           className="flex flex-col items-center justify-center"
@@ -50,9 +66,9 @@ export default function NewComponent() {
             label="Confirm Password"
           />
           <div className="my-7" />
-          <Button text="Reset Password" />
+          <Button text="Reset Password" disable={ !Boolean(token) && !Boolean(secret)}/>
         </form>
       </FormProvider>
     </div>
-  );
+  )
 }
